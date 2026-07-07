@@ -52,7 +52,7 @@ PRS/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/palak507/PRS.git
+git clone https://github.com/palak507/Payroll-System.git
 cd PRS
 ```
 
