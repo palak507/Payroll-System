@@ -1,0 +1,24 @@
+# Environment variables / secrets
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+env/
+
+# IDE settings
+.vscode/
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temp/test files
+tempCodeRunnerFile.py

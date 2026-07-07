@@ -1,0 +1,102 @@
+-- =====================================================
+-- PRS (Payroll/Personnel Record System) Database Setup
+-- =====================================================
+-- Run this whole file to recreate the database and all
+-- tables needed for the DASHBOARD.py project.
+--
+-- How to run:
+--   mysql -u root -p < prs_setup.sql
+-- OR open MySQL prompt (mysql -u root -p) and paste this
+-- whole file in.
+-- =====================================================
+
+CREATE DATABASE IF NOT EXISTS prs;
+USE prs;
+
+-- Company master table
+CREATE TABLE IF NOT EXISTS comp_master (
+    compid INT,
+    name VARCHAR(100),
+    address VARCHAR(200),
+    email VARCHAR(100),
+    phone_no VARCHAR(20),
+    reg_no VARCHAR(50)
+);
+
+-- Department table
+CREATE TABLE IF NOT EXISTS department (
+    dept_id INT,
+    dept_name VARCHAR(100),
+    HOD VARCHAR(100)
+);
+
+-- Employee master data
+CREATE TABLE IF NOT EXISTS emp_data (
+    emp_id INT,
+    name VARCHAR(100),
+    address VARCHAR(200),
+    phone_no VARCHAR(20),
+    doj VARCHAR(20),
+    designation VARCHAR(100),
+    dept_id INT
+);
+
+-- Employee salary data
+CREATE TABLE IF NOT EXISTS emp_salary_data (
+    empid INT,
+    CTC VARCHAR(50),
+    variable_pay VARCHAR(50),
+    slab VARCHAR(50),
+    grade VARCHAR(50)
+);
+
+-- Employee leave data
+CREATE TABLE IF NOT EXISTS emp_leave_data (
+    empid INT,
+    month VARCHAR(50),
+    no_of_leaves VARCHAR(20),
+    type VARCHAR(50)
+);
+
+-- Employee loan data
+CREATE TABLE IF NOT EXISTS emp_loan_data (
+    empid INT,
+    deptid INT,
+    loan_amount INT
+);
+
+-- Salary computation
+CREATE TABLE IF NOT EXISTS salary_computation (
+    empid INT,
+    deptid INT,
+    month VARCHAR(50),
+    net_payable VARCHAR(50)
+);
+
+-- Tax computation
+CREATE TABLE IF NOT EXISTS tax_computation (
+    empid INT,
+    deptid INT,
+    CTC VARCHAR(50),
+    tax_comp_per_month VARCHAR(50),
+    net_amount VARCHAR(50)
+);
+
+-- Admins table (for login/signup system)
+CREATE TABLE IF NOT EXISTS admins (
+    username VARCHAR(50),
+    password VARCHAR(50),
+    email VARCHAR(100)
+);
+
+-- =====================================================
+-- NOTES / FIXES APPLIED
+-- =====================================================
+-- If you already created comp_master with a column named
+-- "comp_id" instead of "compid", run this to fix it:
+--
+-- ALTER TABLE comp_master CHANGE comp_id compid INT;
+--
+-- Your Python code (comp_update_data.py, comp_data_screen.py,
+-- etc.) expects the column to be named "compid" (no underscore).
+-- =====================================================
