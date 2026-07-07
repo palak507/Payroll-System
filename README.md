@@ -52,7 +52,7 @@ PRS/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/palak507/PRS.git
+git clone https://github.com/palak507/Payroll-System.git
 cd PRS
 ```
 
@@ -108,9 +108,7 @@ python main.py
 | `tax_computation` | — | `emp_id` → `emp_data`, `dept_id` → `department` |
 | `admins` | `username` | — |
 
-## Screenshots
 
-*(Add screenshots of the login page, dashboard, and a data view here)*
 
 ## Author
 
