@@ -53,7 +53,7 @@ PRS/
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/palak507/Payroll-System.git
-cd PRS
+cd Payroll-System
 ```
 
 ### 2. Create a virtual environment (recommended)
