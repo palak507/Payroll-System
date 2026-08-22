@@ -25,24 +25,24 @@ A desktop-based Payroll and Resource Management System built with Python (Tkinte
 ## Project Structure
 
 ```
-PRS/
-├── main.py                      # Entry point — launches the login window
+Payroll-System/
+├── main.py                   # Entry point — launches the login window
 ├── gui/
-│   ├── login.py                 # Admin login screen
-│   ├── signup.py                # New admin signup screen
-│   └── dashboard.py             # Main dashboard — opens after login
+│   ├── login.py              # Admin login screen
+│   ├── signup.py             # New admin signup screen
+│   └── dashboard.py          # Main dashboard — opens after login
 ├── modules/
-│   ├── company_master/          # Company CRUD operations
-│   ├── department/               # Department CRUD operations
-│   ├── employee/                 # Employee CRUD operations
-│   ├── employee_salary/          # Salary data CRUD operations
-│   ├── employee_leave/           # Leave data CRUD operations
-│   ├── employee_loan/            # Loan data CRUD operations
-│   ├── salary_computation/       # Salary computation module
-│   └── tax_computation/          # Tax computation module
+│   ├── company_master/       # Company CRUD operations
+│   ├── department/           # Department CRUD operations
+│   ├── employee/             # Employee CRUD operations
+│   ├── employee_salary/      # Salary data CRUD operations
+│   ├── employee_leave/       # Leave data CRUD operations
+│   ├── employee_loan/        # Loan data CRUD operations
+│   ├── salary_computation/   # Salary computation module
+│   └── tax_computation/      # Tax computation module
 ├── database/
-│   └── mysql_connector.py        # Centralized MySQL connection handler
-├── .env                          # Environment variables (not committed)
+│   └── mysql_connector.py    # Centralized MySQL connection handler
+├── .env                      # Environment variables (not committed)
 ├── .gitignore
 ├── requirements.txt
 └── README.md
@@ -108,7 +108,9 @@ python main.py
 | `tax_computation` | — | `emp_id` → `emp_data`, `dept_id` → `department` |
 | `admins` | `username` | — |
 
+## Screenshots
 
+*(Add screenshots of the login page, dashboard, and a data view here)*
 
 ## Author
 
