@@ -2,105 +2,117 @@ import tkinter
 from tkinter import *
 import pymysql
 from tkinter import messagebox
-from tkinter import ttk
+import ttkbootstrap as ttkb
+from ttkbootstrap.constants import *
 from database.mysql_connector import get_connection
+
 def emp_upd_scr():
-    t=tkinter.Tk()
-    t.geometry('800x800')
+    t = ttkb.Toplevel()
     t.title('EMPLOYEE DATA UPDATE')
-    x=Canvas(t,height=800,width=800,bg='forestgreen')
-    x.place(x=1,y=1)
-    xt=[]
+    xt = []
+
     def filldata():
-        db=get_connection()
-        cur=db.cursor()
-        sql="select emp_id from emp_data"
+        db = get_connection()
+        cur = db.cursor()
+        sql = "select emp_id from emp_data order by emp_id"
         cur.execute(sql)
-        data=cur.fetchall()
+        data = cur.fetchall()
         for res in data:
             xt.append(res[0])
         db.close()
+
     def finddata():
-        db=get_connection()
-        cur=db.cursor()
-        xa=int(b.get())
-        sql="select name,address,phone_no,doj,designation,dept_id from emp_data where emp_id=%d"%(xa)
+        db = get_connection()
+        cur = db.cursor()
+        xa = int(b.get())
+        sql = "select name,address,phone_no,doj,designation,dept_id from emp_data where emp_id=%d" % (xa)
         cur.execute(sql)
-        data=cur.fetchone()
-        f.delete(0,100)
-        h.delete(0,100)
-        m.delete(0,100)
-        p.delete(0,100)
-        u.delete(0,100)
-        n2.delete(0,100)
-        f.insert(0,data[0])
-        h.insert(0,data[1])
-        m.insert(0,data[2])
-        p.insert(0,data[3])
-        u.insert(0,(data[4]))
-        n2.insert(0,str(data[5]))
+        data = cur.fetchone()
+        f.delete(0, 100)
+        h.delete(0, 100)
+        m.delete(0, 100)
+        p.delete(0, 100)
+        u.delete(0, 100)
+        n2.delete(0, 100)
+        f.insert(0, data[0])
+        h.insert(0, data[1])
+        m.insert(0, data[2])
+        p.insert(0, data[3])
+        u.insert(0, (data[4]))
+        n2.insert(0, str(data[5]))
+
     def update():
-        db=get_connection()
-        cur=db.cursor()
-        xa=int(b.get())
-        xb=f.get()
-        xc=h.get()
-        xd=m.get()
-        xe=p.get()
-        xf=u.get()
-        xg=int(n2.get())
-        sql="update emp_data set name='%s',address='%s',phone_no='%s',doj='%s',designation='%s',dept_id=%d where emp_id=%d"%(xb,xc,xd,xe,xf,xg,xa)
+        db = get_connection()
+        cur = db.cursor()
+        xa = int(b.get())
+        xb = f.get()
+        xc = h.get()
+        xd = m.get()
+        xe = p.get()
+        xf = u.get()
+        xg = int(n2.get())
+        sql = "update emp_data set name='%s',address='%s',phone_no='%s',doj='%s',designation='%s',dept_id=%d where emp_id=%d" % (xb, xc, xd, xe, xf, xg, xa)
         cur.execute(sql)
         db.commit()
-        messagebox.showinfo('Hi','Updated')
-        b.delete(0,100)
-        f.delete(0,100)
-        h.delete(0,100)
-        m.delete(0,100)
-        p.delete(0,100)
-        u.delete(0,100)
-        n2.delete(0,100)
+        messagebox.showinfo('Hi', 'Updated')
+        b.delete(0, 100)
+        f.delete(0, 100)
+        h.delete(0, 100)
+        m.delete(0, 100)
+        p.delete(0, 100)
+        u.delete(0, 100)
+        n2.delete(0, 100)
         db.close()
+
     def cm():
         t.destroy()
-    
-    aa=Label(t,text='UPDATE DATA',font=('algerian',25),bg='lightgreen')
-    aa.place(x=170,y=50)
-    a=Label(t,text='Emp id',bg='lightgreen')
-    a.place(x=50,y=100)
-    b=ttk.Combobox(t,width=20)
+
+    main_frame = ttkb.Frame(t, padding=30)
+    main_frame.pack(expand=True, fill=BOTH)
+
+    ttkb.Label(main_frame, text="UPDATE DATA", font=('Segoe UI', 20, 'bold'), bootstyle="warning").grid(row=0, column=0, columnspan=2, pady=(0, 25))
+
+    ttkb.Label(main_frame, text="Emp ID", font=('Segoe UI', 11)).grid(row=1, column=0, sticky=W, pady=8, padx=(0, 15))
+    b = ttkb.Combobox(main_frame, width=27, bootstyle="warning")
+    b.grid(row=1, column=1, pady=8)
     filldata()
-    b['values']=xt
-    b.place(x=400,y=100)
-    d=Button(t,text='Find',command=finddata,bg='lightgreen')
-    d.place(x=200,y=140)
-    e=Label(t,text='New Name',bg='lightgreen')
-    e.place(x=50,y=180)
-    f=Entry(t,width=20)
-    f.place(x=400,y=180)
-    g=Label(t,text='New Address',bg='lightgreen')
-    g.place(x=50,y=220)
-    h=Entry(t,width=20)
-    h.place(x=400,y=220)
-    k=Label(t,text='New Phone No.',bg='lightgreen')
-    k.place(x=50,y=260)
-    m=Entry(t,width=20)
-    m.place(x=400,y=260)
-    n=Label(t,text='New DOJ',bg='lightgreen')
-    n.place(x=50,y=300)
-    p=Entry(t,width=20)
-    p.place(x=400,y=300)
-    r=Label(t,text='New Designation',bg='lightgreen')
-    r.place(x=50,y=340)
-    u=Entry(t,width=20)
-    u.place(x=400,y=340)
-    n1=Label(t,text='New Dept Id',bg='lightgreen')
-    n1.place(x=50,y=380)
-    n2=Entry(t,width=20)
-    n2.place(x=400,y=380)
-    v=Button(t,text='Update',command=update,bg='lightgreen')
-    v.place(x=200,y=440)
-    w=Button(t,text='Close',command=cm,bg='lightgreen')
-    w.place(x=300,y=440)
-    
-    t.mainloop() 
+    b['values'] = xt
+
+    ttkb.Button(main_frame, text="Find", bootstyle="info", width=12, command=finddata).grid(row=2, column=0, columnspan=2, pady=10)
+
+    ttkb.Label(main_frame, text="New Name", font=('Segoe UI', 11)).grid(row=3, column=0, sticky=W, pady=8, padx=(0, 15))
+    f = ttkb.Entry(main_frame, width=30, bootstyle="warning")
+    f.grid(row=3, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="New Address", font=('Segoe UI', 11)).grid(row=4, column=0, sticky=W, pady=8, padx=(0, 15))
+    h = ttkb.Entry(main_frame, width=30, bootstyle="warning")
+    h.grid(row=4, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="New Phone No.", font=('Segoe UI', 11)).grid(row=5, column=0, sticky=W, pady=8, padx=(0, 15))
+    m = ttkb.Entry(main_frame, width=30, bootstyle="warning")
+    m.grid(row=5, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="New DOJ", font=('Segoe UI', 11)).grid(row=6, column=0, sticky=W, pady=8, padx=(0, 15))
+    p = ttkb.Entry(main_frame, width=30, bootstyle="warning")
+    p.grid(row=6, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="New Designation", font=('Segoe UI', 11)).grid(row=7, column=0, sticky=W, pady=8, padx=(0, 15))
+    u = ttkb.Entry(main_frame, width=30, bootstyle="warning")
+    u.grid(row=7, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="New Dept ID", font=('Segoe UI', 11)).grid(row=8, column=0, sticky=W, pady=8, padx=(0, 15))
+    n2 = ttkb.Entry(main_frame, width=30, bootstyle="warning")
+    n2.grid(row=8, column=1, pady=8)
+
+    btn_frame = ttkb.Frame(main_frame)
+    btn_frame.grid(row=9, column=0, columnspan=2, pady=(25, 0))
+    ttkb.Button(btn_frame, text="Update", bootstyle="success", width=12, command=update).grid(row=0, column=0, padx=5)
+    ttkb.Button(btn_frame, text="Close", bootstyle="danger", width=12, command=cm).grid(row=0, column=1, padx=5)
+
+    t.update_idletasks()
+    w = main_frame.winfo_reqwidth() + 60
+    h_win = main_frame.winfo_reqheight() + 60
+    sw, sh = t.winfo_screenwidth(), t.winfo_screenheight()
+    t.geometry(f"{w}x{h_win}+{(sw - w)//2}+{(sh - h_win)//2}")
+
+    t.mainloop()

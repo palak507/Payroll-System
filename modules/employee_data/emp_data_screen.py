@@ -2,30 +2,30 @@ import tkinter
 import pymysql
 from tkinter import *
 from tkinter import messagebox
+import ttkbootstrap as ttkb
+from ttkbootstrap.constants import *
 from database.mysql_connector import get_connection
+
 def emp_data_scr():
-    t=tkinter.Tk()
-    t.geometry('800x800')
-    t.title('Show Data ')
-    x=Canvas(t,height=800,width=800,bg='forestgreen')
-    x.place(x=1,y=1)
-    
-    xa=[]
-    xb=[]
-    xd=[]
-    xe=[]
-    xf=[]
-    xg=[]
-    xh=[]
-    
-    i=0
-    
+    t = ttkb.Toplevel()
+    t.title('EMPLOYEE DATA - View Data')
+
+    xa = []
+    xb = []
+    xd = []
+    xe = []
+    xf = []
+    xg = []
+    xh = []
+
+    i = 0
+
     def filldata():
-        db=get_connection()
-        cur=db.cursor()
-        sql="select emp_id,name,address,phone_no,doj,designation,dept_id from emp_data"
+        db = get_connection()
+        cur = db.cursor()
+        sql = "select emp_id,name,address,phone_no,doj,designation,dept_id from emp_data order by emp_id"
         cur.execute(sql)
-        data=cur.fetchall()
+        data = cur.fetchall()
         for res in data:
             xa.append(res[0])
             xb.append(res[1])
@@ -35,133 +35,96 @@ def emp_data_scr():
             xg.append(res[5])
             xh.append(res[6])
         db.close()
+
     def firstrecord():
-        global i
-        i=0
-        a1.delete(0,100)
-        b1.delete(0,100)
-        d1.delete(0,100)
-        e1.delete(0,100)
-        f1.delete(0,100)
-        g1.delete(0,100)
-        h1.delete(0,100)
-        a1.insert(0,str(xa[i]))
-        b1.insert(0,xb[i])
-        d1.insert(0,xd[i])
-        e1.insert(0,xe[i])
-        f1.insert(0,xf[i])
-        g1.insert(0,xg[i])
-        h1.insert(0,str(xh[i]))
+        nonlocal i
+        i = 0
+        _refresh()
+
     def nextrecord():
-        global i
-        i=i+1
-        a1.delete(0,100)
-        b1.delete(0,100)
-        d1.delete(0,100)
-        e1.delete(0,100)
-        f1.delete(0,100)
-        g1.delete(0,100)
-        h1.delete(0,100)
-        a1.insert(0,str(xa[i]))
-        b1.insert(0,xb[i])
-        d1.insert(0,xd[i])
-        e1.insert(0,xe[i])
-        f1.insert(0,xf[i])
-        g1.insert(0,xg[i])
-        h1.insert(0,str(xh[i]))
+        nonlocal i
+        i = i + 1
+        _refresh()
+
     def prevrecord():
-        global i
-        i=i-1
-        a1.delete(0,100)
-        b1.delete(0,100)
-        d1.delete(0,100)
-        e1.delete(0,100)
-        f1.delete(0,100)
-        g1.delete(0,100)
-        h1.delete(0,100)
-        a1.insert(0,str(xa[i]))
-        b1.insert(0,xb[i])
-        d1.insert(0,xd[i])
-        e1.insert(0,xe[i])
-        f1.insert(0,xf[i])
-        g1.insert(0,xg[i])
-        h1.insert(0,str(xh[i]))
+        nonlocal i
+        i = i - 1
+        _refresh()
+
     def lastrecord():
-        global i
-        i=len(xa)-1
-        a1.delete(0,100)
-        b1.delete(0,100)
-        d1.delete(0,100)
-        e1.delete(0,100)
-        f1.delete(0,100)
-        g1.delete(0,100)
-        h1.delete(0,100)
-        a1.insert(0,str(xa[i]))
-        b1.insert(0,xb[i])
-        d1.insert(0,xd[i])
-        e1.insert(0,xe[i])
-        f1.insert(0,xf[i])
-        g1.insert(0,xg[i])
-        h1.insert(0,str(xh[i]))
+        nonlocal i
+        i = len(xa) - 1
+        _refresh()
+
+    def _refresh():
+        a1.delete(0, 100)
+        b1.delete(0, 100)
+        d1.delete(0, 100)
+        e1.delete(0, 100)
+        f1.delete(0, 100)
+        g1.delete(0, 100)
+        h1.delete(0, 100)
+        a1.insert(0, str(xa[i]))
+        b1.insert(0, xb[i])
+        d1.insert(0, xd[i])
+        e1.insert(0, xe[i])
+        f1.insert(0, xf[i])
+        g1.insert(0, xg[i])
+        h1.insert(0, str(xh[i]))
 
     def cm():
         t.destroy()
-    
-    aa=Label(t,text='VIEW DATA',font=('algerian',25),bg='lightgreen')
-    aa.place(x=250,y=60)
-    
-    a=Label(t,text='Emp Id',font=('arial',20,'bold'),bg='lightgreen')
-    a.place(x=80,y=130)
-    a1=Entry(t,width=40)
-    a1.place(x=330,y=140)
-    
-    b=Label(t,text='Name',font=('arial',20,'bold'),bg='lightgreen')
-    b.place(x=80,y=200)
-    b1=Entry(t,width=40)
-    b1.place(x=330,y=215)
-    
-    d=Label(t,text='Address',font=('arial',20,'bold'),bg='lightgreen')
-    d.place(x=80,y=270)
-    d1=Entry(t,width=40)
-    d1.place(x=330,y=285)
-    
-    e=Label(t,text='Phone no',font=('arial',20,'bold'),bg='lightgreen')
-    e.place(x=80,y=340)
-    e1=Entry(t,width=40)
-    e1.place(x=330,y=350)
-    
-    f=Label(t,text='doj',font=('arial',20,'bold'),bg='lightgreen')
-    f.place(x=80,y=380)
-    f1=Entry(t,width=40)
-    f1.place(x=330,y=390)
-    
-    g=Label(t,text='designation',font=('arial',20,'bold'),bg='lightgreen')
-    g.place(x=80,y=420)
-    g1=Entry(t,width=40)
-    g1.place(x=330,y=430)
 
-    h=Label(t,text='Dept Id',font=('arial',20,'bold'),bg='lightgreen')
-    h.place(x=80,y=460)
-    h1=Entry(t,width=40)
-    h1.place(x=330,y=470)
-    
-    
-    
-    
-    bt=Button(t,text='First',font=('arial',15,'bold'),bg='lightgreen',bd=5,command=firstrecord)
-    bt.place(x=100,y=550)
-    
-    bt1=Button(t,text='Next',font=('arial',15,'bold'),bg='lightgreen',bd=5,command=nextrecord)
-    bt1.place(x=300,y=550)
-    
-    bt2=Button(t,text='Last',font=('arial',15,'bold'),bg='lightgreen',bd=5,command=lastrecord)
-    bt2.place(x=450,y=550)
-    
-    bt3=Button(t,text='Previous',font=('arial',15,'bold'),bg='lightgreen',bd=5,command=prevrecord)
-    bt3.place(x=600,y=550)
+    main_frame = ttkb.Frame(t, padding=30)
+    main_frame.pack(expand=True, fill=BOTH)
+
+    ttkb.Label(main_frame, text="VIEW DATA", font=('Segoe UI', 20, 'bold'), bootstyle="success").grid(row=0, column=0, columnspan=2, pady=(0, 25))
+
+    ttkb.Label(main_frame, text="Emp ID", font=('Segoe UI', 11)).grid(row=1, column=0, sticky=W, pady=8, padx=(0, 15))
+    a1 = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    a1.grid(row=1, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Name", font=('Segoe UI', 11)).grid(row=2, column=0, sticky=W, pady=8, padx=(0, 15))
+    b1 = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    b1.grid(row=2, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Address", font=('Segoe UI', 11)).grid(row=3, column=0, sticky=W, pady=8, padx=(0, 15))
+    d1 = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    d1.grid(row=3, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Phone No", font=('Segoe UI', 11)).grid(row=4, column=0, sticky=W, pady=8, padx=(0, 15))
+    e1 = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    e1.grid(row=4, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="DOJ", font=('Segoe UI', 11)).grid(row=5, column=0, sticky=W, pady=8, padx=(0, 15))
+    f1 = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    f1.grid(row=5, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Designation", font=('Segoe UI', 11)).grid(row=6, column=0, sticky=W, pady=8, padx=(0, 15))
+    g1 = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    g1.grid(row=6, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Dept ID", font=('Segoe UI', 11)).grid(row=7, column=0, sticky=W, pady=8, padx=(0, 15))
+    h1 = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    h1.grid(row=7, column=1, pady=8)
+
+    nav_frame = ttkb.Frame(main_frame)
+    nav_frame.grid(row=8, column=0, columnspan=2, pady=(20, 5))
+    ttkb.Button(nav_frame, text="First", bootstyle="info", width=10, command=firstrecord).grid(row=0, column=0, padx=4)
+    ttkb.Button(nav_frame, text="Previous", bootstyle="info", width=10, command=prevrecord).grid(row=0, column=1, padx=4)
+    ttkb.Button(nav_frame, text="Next", bootstyle="info", width=10, command=nextrecord).grid(row=0, column=2, padx=4)
+    ttkb.Button(nav_frame, text="Last", bootstyle="info", width=10, command=lastrecord).grid(row=0, column=3, padx=4)
+
+    ttkb.Button(main_frame, text="Close", bootstyle="danger", width=12, command=cm).grid(row=9, column=0, columnspan=2, pady=(20, 0))
+
     filldata()
-    
-    c1=Button(t,text='Close',font=('arial',15,'bold'),bg='lightgreen',bd=5,command=cm)
-    c1.place(x=350,y=620)
-    
+    if xa:
+        firstrecord()
+
+    t.update_idletasks()
+    w = main_frame.winfo_reqwidth() + 60
+    h = main_frame.winfo_reqheight() + 60
+    sw, sh = t.winfo_screenwidth(), t.winfo_screenheight()
+    t.geometry(f"{w}x{h}+{(sw - w)//2}+{(sh - h)//2}")
+
     t.mainloop()

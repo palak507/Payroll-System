@@ -2,79 +2,80 @@ import tkinter
 from tkinter import *
 import pymysql
 from tkinter import messagebox
-from tkinter import ttk
+import ttkbootstrap as ttkb
+from ttkbootstrap.constants import *
 from database.mysql_connector import get_connection
+
 def tax_find_scr():
-    t=tkinter.Tk()
-    t.geometry('800x800')
-    x=Canvas(t,height=800,width=800,bg='red2')
-    x.place(x=1,y=1)
-    
-    xt=[]
-    
+    t = ttkb.Toplevel()
+    t.title('TAX COMPUTATION - Find')
+    xt = []
+
     def filldata():
-        db=get_connection()
-        cur=db.cursor()
-        sql="select emp_id from tax_computation"
+        db = get_connection()
+        cur = db.cursor()
+        sql = "select emp_id from tax_computation order by emp_id"
         cur.execute(sql)
-        data=cur.fetchall()
+        data = cur.fetchall()
         for res in data:
             xt.append(res[0])
         db.close()
-     
+
     def finddata():
-        db=get_connection()
-        cur=db.cursor()
-        xa=int(b1.get())
-        sql="select dept_id,CTC,tax_comp_per_month,net_amount from tax_computation where emp_id=%d"%(xa)
+        db = get_connection()
+        cur = db.cursor()
+        xa = int(b1.get())
+        sql = "select dept_id,CTC,tax_comp_per_month,net_amount from tax_computation where emp_id=%d" % (xa)
         cur.execute(sql)
-        data=cur.fetchone()
-        d1.delete(0,100)
-        g1.delete(0,100)
-        j1.delete(0,100)
-        e1.delete(0,100)
-        d1.insert(0,data[0])
-        g1.insert(0,data[1])
-        j1.insert(0,data[2])
-        e1.insert(0,data[3])
+        data = cur.fetchone()
+        d1.delete(0, 100)
+        g1.delete(0, 100)
+        j1.delete(0, 100)
+        e1.delete(0, 100)
+        d1.insert(0, data[0])
+        g1.insert(0, data[1])
+        j1.insert(0, data[2])
+        e1.insert(0, data[3])
         db.close()
+
     def cm():
-            t.destroy()
-    
-       
-    aa=Label(t,text='FIND DATA',font=('algerian',25),bg='tomato')
-    aa.place(x=250,y=60) 
-    b=Label(t,text='Empid',font=12,bg='tomato')
-    b.place(x=130,y=150)
-    b1=ttk.Combobox(t)
-    b1.place(x=300,y=150)
+        t.destroy()
+
+    main_frame = ttkb.Frame(t, padding=30)
+    main_frame.pack(expand=True, fill=BOTH)
+
+    ttkb.Label(main_frame, text="FIND DATA", font=('Segoe UI', 20, 'bold'), bootstyle="info").grid(row=0, column=0, columnspan=2, pady=(0, 25))
+
+    ttkb.Label(main_frame, text="Emp ID", font=('Segoe UI', 11)).grid(row=1, column=0, sticky=W, pady=8, padx=(0, 15))
+    b1 = ttkb.Combobox(main_frame, width=27, bootstyle="info")
+    b1.grid(row=1, column=1, pady=8)
     filldata()
-    b1['values']=xt
-    
-    m=Button(t,text='Find',command=finddata,bg='tomato')
-    m.place(x=300,y=200)
-    
-    d=Label(t,text='Dept id',font=12,bg='tomato')
-    d.place(x=130,y=250)
-    d1=Entry(t,width=20)
-    d1.place(x=300,y=250)
-    
-    g=Label(t,text='CTC',font=12,bg='tomato')
-    g.place(x=130,y=300)
-    g1=Entry(t,width=20)
-    g1.place(x=300,y=300)
-    
-    j=Label(t,text='Tax Comp Per Month',font=12,bg='tomato')
-    j.place(x=130,y=350)
-    j1=Entry(t,width=20)
-    j1.place(x=300,y=350)
-    
-    e=Label(t,text='Net Amount',font=12,bg='tomato')
-    e.place(x=130,y=400)
-    e1=Entry(t,width=20)
-    e1.place(x=300,y=400)
-    
-    m1=Button(t,text='Close',command=cm,bg='tomato')
-    m1.place(x=300,y=450)
-    
+    b1['values'] = xt
+
+    ttkb.Button(main_frame, text="Find", bootstyle="info", width=12, command=finddata).grid(row=2, column=0, columnspan=2, pady=10)
+
+    ttkb.Label(main_frame, text="Dept ID", font=('Segoe UI', 11)).grid(row=3, column=0, sticky=W, pady=8, padx=(0, 15))
+    d1 = ttkb.Entry(main_frame, width=30, bootstyle="info")
+    d1.grid(row=3, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="CTC", font=('Segoe UI', 11)).grid(row=4, column=0, sticky=W, pady=8, padx=(0, 15))
+    g1 = ttkb.Entry(main_frame, width=30, bootstyle="info")
+    g1.grid(row=4, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Tax Comp Per Month", font=('Segoe UI', 11)).grid(row=5, column=0, sticky=W, pady=8, padx=(0, 15))
+    j1 = ttkb.Entry(main_frame, width=30, bootstyle="info")
+    j1.grid(row=5, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Net Amount", font=('Segoe UI', 11)).grid(row=6, column=0, sticky=W, pady=8, padx=(0, 15))
+    e1 = ttkb.Entry(main_frame, width=30, bootstyle="info")
+    e1.grid(row=6, column=1, pady=8)
+
+    ttkb.Button(main_frame, text="Close", bootstyle="danger", width=12, command=cm).grid(row=7, column=0, columnspan=2, pady=(25, 0))
+
+    t.update_idletasks()
+    w = main_frame.winfo_reqwidth() + 60
+    h_win = main_frame.winfo_reqheight() + 60
+    sw, sh = t.winfo_screenwidth(), t.winfo_screenheight()
+    t.geometry(f"{w}x{h_win}+{(sw - w)//2}+{(sh - h_win)//2}")
+
     t.mainloop()

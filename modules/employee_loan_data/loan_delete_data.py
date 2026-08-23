@@ -2,48 +2,59 @@ import tkinter
 from tkinter import *
 import pymysql
 from tkinter import messagebox
-from tkinter import ttk
+import ttkbootstrap as ttkb
+from ttkbootstrap.constants import *
 from database.mysql_connector import get_connection
+
 def loan_del_scr():
-    t=tkinter.Tk()
-    t.geometry('800x800')
-    x=Canvas(t,height=800,width=800,bg='cyan2')
-    x.place(x=1,y=1)
-    xt=[]
-    
+    t = ttkb.Toplevel()
+    t.title('EMPLOYEE LOAN - Delete')
+    xt = []
+
     def filldata():
-        db=get_connection()
-        cur=db.cursor()
-        sql="select emp_id from emp_loan_data"
+        db = get_connection()
+        cur = db.cursor()
+        sql = "select emp_id from emp_loan_data order by emp_id"
         cur.execute(sql)
-        data=cur.fetchall()
+        data = cur.fetchall()
         for res in data:
             xt.append(res[0])
         db.close()
-        
+
     def deletedata():
-        db=get_connection()
-        cur=db.cursor()
-        xa=int(b1.get())
-        sql="delete from emp_loan_data where emp_id=%d"%(xa)
+        db = get_connection()
+        cur = db.cursor()
+        xa = int(b1.get())
+        sql = "delete from emp_loan_data where emp_id=%d" % (xa)
         cur.execute(sql)
-        b1.delete(0,100)
-        messagebox.showinfo('Hi','Deleted')
+        b1.delete(0, 100)
+        messagebox.showinfo('Hi', 'Deleted')
         db.commit()
-        db.close()  
+        db.close()
+
     def cm():
         t.destroy()
-    aa=Label(t,text='DELETE DATA',font=('algerian',25),bg='cyan4')
-    aa.place(x=250,y=60)
-    b=Label(t,text='Empid',font=12,bg='cyan4')
-    b.place(x=150,y=150)
-    b1=ttk.Combobox(t)
-    b1.place(x=300,y=150)
+
+    main_frame = ttkb.Frame(t, padding=30)
+    main_frame.pack(expand=True, fill=BOTH)
+
+    ttkb.Label(main_frame, text="DELETE DATA", font=('Segoe UI', 20, 'bold'), bootstyle="danger").grid(row=0, column=0, columnspan=2, pady=(0, 25))
+
+    ttkb.Label(main_frame, text="Emp ID", font=('Segoe UI', 11)).grid(row=1, column=0, sticky=W, pady=8, padx=(0, 15))
+    b1 = ttkb.Combobox(main_frame, width=27, bootstyle="danger")
+    b1.grid(row=1, column=1, pady=8)
     filldata()
-    b1['values']=xt
-    
-    n=Button(t,text='Delete',command=deletedata,bg='cyan4')
-    n.place(x=250,y=200)
-    p=Button(t,text='Close',command=cm,bg='cyan4')
-    p.place(x=350,y=200)
+    b1['values'] = xt
+
+    btn_frame = ttkb.Frame(main_frame)
+    btn_frame.grid(row=2, column=0, columnspan=2, pady=(25, 0))
+    ttkb.Button(btn_frame, text="Delete", bootstyle="danger", width=12, command=deletedata).grid(row=0, column=0, padx=5)
+    ttkb.Button(btn_frame, text="Close", bootstyle="secondary", width=12, command=cm).grid(row=0, column=1, padx=5)
+
+    t.update_idletasks()
+    w = main_frame.winfo_reqwidth() + 60
+    h = main_frame.winfo_reqheight() + 60
+    sw, sh = t.winfo_screenwidth(), t.winfo_screenheight()
+    t.geometry(f"{w}x{h}+{(sw - w)//2}+{(sh - h)//2}")
+
     t.mainloop()

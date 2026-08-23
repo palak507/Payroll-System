@@ -2,66 +2,70 @@ import tkinter
 from tkinter import *
 import pymysql
 from tkinter import messagebox
+import ttkbootstrap as ttkb
+from ttkbootstrap.constants import *
 from database.mysql_connector import get_connection
+
 def tax_ins_scr():
-    t=tkinter.Tk()
-    t.geometry('800x800')
-    x=Canvas(t,height=800,width=800,bg='red2')
-    x.place(x=1,y=1)
-    
-    
+    t = ttkb.Toplevel()
+    t.title('TAX COMPUTATION - Insert')
+
     def savedata():
-        db=get_connection()
-        cur=db.cursor()
-        xa=int(b1.get())
-        xb=int(d1.get())
-        xc=g1.get()
-        xd=j1.get()
-        xe=e1.get()
-        sql="insert into tax_computation values(%d,%d,'%s','%s','%s')"%(xa,xb,xc,xd,xe)
+        db = get_connection()
+        cur = db.cursor()
+        xa = int(b1.get())
+        xb = int(d1.get())
+        xc = g1.get()
+        xd = j1.get()
+        xe = e1.get()
+        sql = "insert into tax_computation values(%d,%d,'%s','%s','%s')" % (xa, xb, xc, xd, xe)
         cur.execute(sql)
         db.commit()
-        b1.delete(0,100)
-        d1.delete(0,100)
-        g1.delete(0,100)
-        j1.delete(0,100)
-        e1.delete(0,100)
+        b1.delete(0, 100)
+        d1.delete(0, 100)
+        g1.delete(0, 100)
+        j1.delete(0, 100)
+        e1.delete(0, 100)
         db.close()
-        messagebox.showinfo('hi','saved')
-    
+        messagebox.showinfo('hi', 'saved')
+
     def cm():
         t.destroy()
-    
-    aa=Label(t,text='INSERT DATA',font=('algerian',25),bg='tomato')
-    aa.place(x=250,y=60)
-    b=Label(t,text='Empid',font=12,bg='tomato')
-    b.place(x=130,y=150)
-    b1=Entry(t,width=20)
-    b1.place(x=300,y=150)
-    
-    d=Label(t,text='Dept id',font=12,bg='tomato')
-    d.place(x=130,y=200)
-    d1=Entry(t,width=20)
-    d1.place(x=300,y=200)
-    
-    g=Label(t,text='CTC',font=12,bg='tomato')
-    g.place(x=130,y=250)
-    g1=Entry(t,width=20)
-    g1.place(x=300,y=250)
-    
-    j=Label(t,text='Tax Comp Per Month',font=12,bg='tomato')
-    j.place(x=130,y=300)
-    j1=Entry(t,width=20)
-    j1.place(x=300,y=300)
-    
-    e=Label(t,text='Net Amount',font=12,bg='tomato')
-    e.place(x=130,y=350)
-    e1=Entry(t,width=20)
-    e1.place(x=300,y=350)
-    
-    m=Button(t,text='Save',command=savedata,bg='tomato')
-    m.place(x=350,y=400)
-    m1=Button(t,text='Close',command=cm,bg='tomato')
-    m1.place(x=450,y=400)
-    
+
+    main_frame = ttkb.Frame(t, padding=30)
+    main_frame.pack(expand=True, fill=BOTH)
+
+    ttkb.Label(main_frame, text="INSERT DATA", font=('Segoe UI', 20, 'bold'), bootstyle="danger").grid(row=0, column=0, columnspan=2, pady=(0, 25))
+
+    ttkb.Label(main_frame, text="Emp ID", font=('Segoe UI', 11)).grid(row=1, column=0, sticky=W, pady=8, padx=(0, 15))
+    b1 = ttkb.Entry(main_frame, width=30, bootstyle="danger")
+    b1.grid(row=1, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Dept ID", font=('Segoe UI', 11)).grid(row=2, column=0, sticky=W, pady=8, padx=(0, 15))
+    d1 = ttkb.Entry(main_frame, width=30, bootstyle="danger")
+    d1.grid(row=2, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="CTC", font=('Segoe UI', 11)).grid(row=3, column=0, sticky=W, pady=8, padx=(0, 15))
+    g1 = ttkb.Entry(main_frame, width=30, bootstyle="danger")
+    g1.grid(row=3, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Tax Comp Per Month", font=('Segoe UI', 11)).grid(row=4, column=0, sticky=W, pady=8, padx=(0, 15))
+    j1 = ttkb.Entry(main_frame, width=30, bootstyle="danger")
+    j1.grid(row=4, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Net Amount", font=('Segoe UI', 11)).grid(row=5, column=0, sticky=W, pady=8, padx=(0, 15))
+    e1 = ttkb.Entry(main_frame, width=30, bootstyle="danger")
+    e1.grid(row=5, column=1, pady=8)
+
+    btn_frame = ttkb.Frame(main_frame)
+    btn_frame.grid(row=6, column=0, columnspan=2, pady=(25, 0))
+    ttkb.Button(btn_frame, text="Save", bootstyle="success", width=12, command=savedata).grid(row=0, column=0, padx=5)
+    ttkb.Button(btn_frame, text="Close", bootstyle="danger", width=12, command=cm).grid(row=0, column=1, padx=5)
+
+    t.update_idletasks()
+    w = main_frame.winfo_reqwidth() + 60
+    h = main_frame.winfo_reqheight() + 60
+    sw, sh = t.winfo_screenwidth(), t.winfo_screenheight()
+    t.geometry(f"{w}x{h}+{(sw - w)//2}+{(sh - h)//2}")
+
     t.mainloop()

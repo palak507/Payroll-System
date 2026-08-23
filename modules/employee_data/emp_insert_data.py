@@ -2,71 +2,82 @@ import tkinter
 from tkinter import *
 import pymysql
 from tkinter import messagebox
+import ttkbootstrap as ttkb
+from ttkbootstrap.constants import *
 from database.mysql_connector import get_connection
+
 def emp_ins_scr():
-    t=tkinter.Tk()
-    t.geometry('800x800')
-    t.title('EMPLOYEE DATA')
-    x=Canvas(t,height=800,width=800,bg='forestgreen')
-    x.place(x=1,y=1)
+    t = ttkb.Toplevel()
+    t.title('EMPLOYEE DATA - Insert')
+
     def savedata():
-        db=get_connection()
-        cur=db.cursor()
-        xa=int(b.get())
-        xb=e.get()
-        xc=g.get()
-        xd=j.get()
-        xe=m.get()
-        xf=p.get()
-        xg=int(rt.get())
-        sql="insert into emp_data values(%d,'%s','%s','%s','%s','%s',%d)"%(xa,xb,xc,xd,xe,xf,xg)
+        db = get_connection()
+        cur = db.cursor()
+        xa = int(b.get())
+        xb = e.get()
+        xc = g.get()
+        xd = j.get()
+        xe = m.get()
+        xf = p.get()
+        xg = int(rt.get())
+        sql = "insert into emp_data values(%d,'%s','%s','%s','%s','%s',%d)" % (xa, xb, xc, xd, xe, xf, xg)
         cur.execute(sql)
         db.commit()
-        b.delete(0,100)
-        e.delete(0,100)
-        g.delete(0,100)
-        j.delete(0,100)
-        m.delete(0,100)
-        p.delete(0,100)
-        rt.delete(0,100)
+        b.delete(0, 100)
+        e.delete(0, 100)
+        g.delete(0, 100)
+        j.delete(0, 100)
+        m.delete(0, 100)
+        p.delete(0, 100)
+        rt.delete(0, 100)
         db.close()
-        messagebox.showinfo('Hi','Saved')
+        messagebox.showinfo('Hi', 'Saved')
+
     def cm():
         t.destroy()
-    
-    aa=Label(t,text='INSERT DATA',font=('algerian',25),bg='lightgreen')
-    aa.place(x=170,y=50)
-    a=Label(t,text='Emp id',bg='lightgreen')
-    a.place(x=50,y=100)
-    b=Entry(t,width=20)
-    b.place(x=400,y=100)
-    d=Label(t,text='Name',bg='lightgreen')
-    d.place(x=50,y=140)
-    e=Entry(t,width=20)
-    e.place(x=400,y=140)
-    f=Label(t,text='Address',bg='lightgreen')
-    f.place(x=50,y=180)
-    g=Entry(t,width=20)
-    g.place(x=400,y=180)
-    h=Label(t,text='Phone no.',bg='lightgreen')
-    h.place(x=50,y=220)
-    j=Entry(t,width=20)
-    j.place(x=400,y=220)
-    k=Label(t,text='DOJ',bg='lightgreen')
-    k.place(x=50,y=260)
-    m=Entry(t,width=20)
-    m.place(x=400,y=260)
-    n=Label(t,text='Designation',bg='lightgreen')
-    n.place(x=50,y=300)
-    p=Entry(t,width=20)
-    p.place(x=400,y=300)
-    s=Label(t,text='Dept_id',bg='lightgreen')
-    s.place(x=50,y=350)
-    rt=Entry(t,width=20)
-    rt.place(x=400,y=350)
-    b1=Button(t,text='Save',command=savedata,bg='lightgreen')
-    b1.place(x=200,y=420)
-    b2=Button(t,text='Close',command=cm,bg='lightgreen')
-    b2.place(x=300,y=420)
-    
+
+    main_frame = ttkb.Frame(t, padding=30)
+    main_frame.pack(expand=True, fill=BOTH)
+
+    ttkb.Label(main_frame, text="INSERT DATA", font=('Segoe UI', 20, 'bold'), bootstyle="success").grid(row=0, column=0, columnspan=2, pady=(0, 25))
+
+    ttkb.Label(main_frame, text="Emp ID", font=('Segoe UI', 11)).grid(row=1, column=0, sticky=W, pady=8, padx=(0, 15))
+    b = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    b.grid(row=1, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Name", font=('Segoe UI', 11)).grid(row=2, column=0, sticky=W, pady=8, padx=(0, 15))
+    e = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    e.grid(row=2, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Address", font=('Segoe UI', 11)).grid(row=3, column=0, sticky=W, pady=8, padx=(0, 15))
+    g = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    g.grid(row=3, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Phone No.", font=('Segoe UI', 11)).grid(row=4, column=0, sticky=W, pady=8, padx=(0, 15))
+    j = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    j.grid(row=4, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="DOJ", font=('Segoe UI', 11)).grid(row=5, column=0, sticky=W, pady=8, padx=(0, 15))
+    m = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    m.grid(row=5, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Designation", font=('Segoe UI', 11)).grid(row=6, column=0, sticky=W, pady=8, padx=(0, 15))
+    p = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    p.grid(row=6, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="Dept ID", font=('Segoe UI', 11)).grid(row=7, column=0, sticky=W, pady=8, padx=(0, 15))
+    rt = ttkb.Entry(main_frame, width=30, bootstyle="success")
+    rt.grid(row=7, column=1, pady=8)
+
+    btn_frame = ttkb.Frame(main_frame)
+    btn_frame.grid(row=8, column=0, columnspan=2, pady=(25, 0))
+    ttkb.Button(btn_frame, text="Save", bootstyle="success", width=12, command=savedata).grid(row=0, column=0, padx=5)
+    ttkb.Button(btn_frame, text="Close", bootstyle="danger", width=12, command=cm).grid(row=0, column=1, padx=5)
+
+    t.update_idletasks()
+    w = main_frame.winfo_reqwidth() + 60
+    h = main_frame.winfo_reqheight() + 60
+    sw, sh = t.winfo_screenwidth(), t.winfo_screenheight()
+    t.geometry(f"{w}x{h}+{(sw - w)//2}+{(sh - h)//2}")
+
     t.mainloop()

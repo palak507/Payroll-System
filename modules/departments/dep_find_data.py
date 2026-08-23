@@ -2,58 +2,68 @@ import tkinter
 from tkinter import *
 import pymysql
 from tkinter import messagebox
-from tkinter import ttk
+import ttkbootstrap as ttkb
+from ttkbootstrap.constants import *
 from database.mysql_connector import get_connection
+
 def dep_find_scr():
-        
-    t=tkinter.Tk()
-    t.geometry('800x800')
-    x=Canvas(t,height=800,width=800,bg='pink')
-    x.place(x=1,y=1)
-    xt=[]
+    t = ttkb.Toplevel()
+    t.title('DEPARTMENT - Find')
+    xt = []
+
     def filldata():
-        db=get_connection()
-        cur=db.cursor()
-        sql="select dept_id from department"
+        db = get_connection()
+        cur = db.cursor()
+        sql = "select dept_id from department"
         cur.execute(sql)
-        data=cur.fetchall()
+        data = cur.fetchall()
         for res in data:
             xt.append(res[0])
         db.close()
+
     def finddata():
-        db=get_connection()
-        cur=db.cursor()
-        xa=int(b.get())
-        sql="select dept_name,HOD from department where dept_id=%d"%(xa)
+        db = get_connection()
+        cur = db.cursor()
+        xa = int(b.get())
+        sql = "select dept_name,HOD from department where dept_id=%d" % (xa)
         cur.execute(sql)
-        data=cur.fetchone()
-        f.delete(0,100)
-        h.delete(0,100)
-        f.insert(0,data[0])
-        h.insert(0,data[1])
+        data = cur.fetchone()
+        f.delete(0, 100)
+        h.delete(0, 100)
+        f.insert(0, data[0])
+        h.insert(0, data[1])
         db.close()
+
     def cm():
         t.destroy()
-    
-    aa=Label(t,text='FIND DATA',font=('algerian',25),bg='violetred1')
-    aa.place(x=200,y=50)    
-    a=Label(t,text='Dept id',bg='violetred1')
-    a.place(x=50,y=100)
-    b=ttk.Combobox(t,width=20)
+
+    main_frame = ttkb.Frame(t, padding=30)
+    main_frame.pack(expand=True, fill=BOTH)
+
+    ttkb.Label(main_frame, text="FIND DATA", font=('Segoe UI', 20, 'bold'), bootstyle="info").grid(row=0, column=0, columnspan=2, pady=(0, 25))
+
+    ttkb.Label(main_frame, text="Dept ID", font=('Segoe UI', 11)).grid(row=1, column=0, sticky=W, pady=8, padx=(0, 15))
+    b = ttkb.Combobox(main_frame, width=27, bootstyle="info")
+    b.grid(row=1, column=1, pady=8)
     filldata()
-    b['values']=xt
-    b.place(x=400,y=100)
-    d=Button(t,text='Find',command=finddata,bg='violetred1')
-    d.place(x=200,y=140)
-    e=Label(t,text='Dept Name',bg='violetred1')
-    e.place(x=50,y=180)
-    f=Entry(t,width=20)
-    f.place(x=400,y=180)
-    g=Label(t,text='HOD',bg='violetred1')
-    g.place(x=50,y=220)
-    h=Entry(t,width=20)
-    h.place(x=400,y=220)
-    v=Button(t,text='Close',command=cm,bg='violetred1')
-    v.place(x=200,y=300)
-    
+    b['values'] = xt
+
+    ttkb.Button(main_frame, text="Find", bootstyle="info", width=12, command=finddata).grid(row=2, column=0, columnspan=2, pady=10)
+
+    ttkb.Label(main_frame, text="Dept Name", font=('Segoe UI', 11)).grid(row=3, column=0, sticky=W, pady=8, padx=(0, 15))
+    f = ttkb.Entry(main_frame, width=30, bootstyle="info")
+    f.grid(row=3, column=1, pady=8)
+
+    ttkb.Label(main_frame, text="HOD", font=('Segoe UI', 11)).grid(row=4, column=0, sticky=W, pady=8, padx=(0, 15))
+    h = ttkb.Entry(main_frame, width=30, bootstyle="info")
+    h.grid(row=4, column=1, pady=8)
+
+    ttkb.Button(main_frame, text="Close", bootstyle="danger", width=12, command=cm).grid(row=5, column=0, columnspan=2, pady=(25, 0))
+
+    t.update_idletasks()
+    w = main_frame.winfo_reqwidth() + 60
+    h_win = main_frame.winfo_reqheight() + 60
+    sw, sh = t.winfo_screenwidth(), t.winfo_screenheight()
+    t.geometry(f"{w}x{h_win}+{(sw - w)//2}+{(sh - h_win)//2}")
+
     t.mainloop()
