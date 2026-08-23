@@ -88,15 +88,3 @@ CREATE TABLE IF NOT EXISTS admins (
     password VARCHAR(50),
     email VARCHAR(100)
 );
-
--- =====================================================
--- NOTES / FIXES APPLIED
--- =====================================================
--- If you already created comp_master with a column named
--- "comp_id" instead of "compid", run this to fix it:
---
--- ALTER TABLE comp_master CHANGE comp_id compid INT;
---
--- Your Python code (comp_update_data.py, comp_data_screen.py,
--- etc.) expects the column to be named "compid" (no underscore).
--- =====================================================
